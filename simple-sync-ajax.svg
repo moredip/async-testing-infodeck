@@ -136,7 +136,7 @@
     <line
        stroke="#000000"
        stroke-dasharray="5,5"
-       id="svg_3"
+       id="post-return-arrow"
        marker-end="url(#se_marker_end_svg_3)"
        fill="none"
        stroke-width="2"
@@ -145,7 +145,8 @@
        x1="348.5"
        y1="326.5"
        x2="210.499997"
-       y2="326.5" />
+       y2="326.5"
+       inkscape:label="#svg_3" />
     <text
        xml:space="preserve"
        font-size="24"
