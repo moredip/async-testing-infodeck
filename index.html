@@ -3,7 +3,30 @@
     <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
-    <div class="slide" data-slide="simple-sync-ajax"></div>
+    <div class="slide" data-slide="simple-sync-ajax">
+      <p>We'll use an example of adding a new user to the system. We have a UserRegistrar who is responsible for adding a new user. It does that by asking the AJAX Service to make a POST request to the appropriate URL. Once the POST request completes we have successfully create a user, so the UserRegistrar also completes.
+      </p>
+      <p>If we were implementing this in synchronous code we'd probably end up with something along the lines of what is illustrated by this Sequence Diagram.
+      </p>
+      <ol>
+        <li data-name='call-add-user'>
+          Someone calls UserRegistrar.addUser(...)
+        </li>
+        <li data-name='call-post'>
+          addUser asks the AJAX service to make a post request
+        </li>
+        <li data-name='do-post'>
+          the AJAX service does its thing
+        </li>
+        <li data-name='return-post'>
+          the post request returns to UserRegistrar.addUser
+        </li>
+        <li data-name='return-add-user'>
+          since the post completed, addUser then returns too
+        </li>
+      </ol>
+    </div>
+
     <div class="slide" data-slide="simple-sync-ajax-test"></div>
 
     <script src="jquery-1.8.3.min.js"></script>

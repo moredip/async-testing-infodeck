@@ -1,5 +1,5 @@
 window.nico ?= {}
-window.nico.createAnimator = createAnimator = ( props )->
+window.nico.createAnimator = ( props )->
   asEvented.call( props )
 
 
@@ -29,6 +29,16 @@ window.nico.createAnimator = createAnimator = ( props )->
   props.delay ?= 0
 
   props
+
+window.nico.updateCharredTrailList = ($list,activeItemName)->
+  notCurrClass = 'charred'
+  $list.find('li').removeClass('charred fresh active').each (_,listItem)->
+    if $(listItem).data('name') == activeItemName
+      $(listItem).addClass('active')
+      notCurrClass = 'fresh'
+    else
+      $(listItem).addClass(notCurrClass)
+
 
 $ ->
   $('.slide').each (_, slide)->

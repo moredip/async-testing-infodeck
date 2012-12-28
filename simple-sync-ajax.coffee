@@ -52,10 +52,21 @@ showPostText.postAnimate(showPostBody)
 showPostBody.postAnimate(showPostReturn)
 showPostReturn.postAnimate(showAddUserReturn)
 
+$stagesList = $('[data-slide="simple-sync-ajax"] ol')
+
+nico.updateCharredTrailList($stagesList, 'call-add-user')
+showPostArrow.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'call-post')
+showPostBody.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'do-post')
+showPostReturn.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'return-post')
+showAddUserReturn.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'return-add-user')
+showAddUserReturn.on 'animate:did-end', -> nico.updateCharredTrailList($stagesList, '')
+
+
 showPostArrow.prep()
 showPostText.prep()
 showPostBody.prep()
 showPostReturn.prep()
 showAddUserReturn.prep()
+
 
 showPostArrow.animate()

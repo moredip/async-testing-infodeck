@@ -3,3 +3,16 @@
   width: 90%;
   margin: 20px;
 }
+
+li.charred {
+  color: rgba(0,0,0,0.6);
+}
+
+li.active {
+  color: rgba(0,0,0,1);
+  text-decoration: underline;
+}
+
+li.fresh {
+  color: rgba(0,0,0,0.2);
+}
