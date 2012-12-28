@@ -1,0 +1,2 @@
+createAnimator = window.nico.createAnimator
+
