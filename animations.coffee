@@ -1,16 +1,30 @@
 window.nico ?= {}
 window.nico.createAnimator = createAnimator = ( props )->
-  props.animate ?= ->
+  asEvented.call( props )
+
+  props.animate = ->
+    @trigger('animate:will-start')
     @pre(@subject()) if @pre?
-    tran = @subject().transition().duration(500).each 'end', =>
-      @next().animate() if @next?
+    tran = @subject().transition().delay(@delay).duration(@duration).each 'end', =>
+      @trigger('animate:did-end')
     @change(tran)
+    @trigger('animate:did-start')
+
+  props.prep = ->
+    @before(@subject())
+    @trigger('animate:did-prep')
+
+  props.postAnimate = (animation)->
+    @on 'animate:did-end', -> animation.animate()
+
+  props.simulAnimate = (animation)->
+    @on 'animate:will-start', -> animation.animate()
 
   if props.selector
     props.subject ?= -> d3.select(@selector)
 
-  props.prep ?= ->
-    @before(@subject())
+  props.duration ?= 500
+  props.delay ?= 0
 
   props
 

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="640"
@@ -38,7 +40,7 @@
      id="namedview3069"
      showgrid="false"
      inkscape:zoom="1.3935896"
-     inkscape:cx="244.01232"
+     inkscape:cx="272.35639"
      inkscape:cy="246.07174"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -47,6 +49,37 @@
   <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
   <defs
      id="defs3050">
+    <linearGradient
+       id="linearGradient9699"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop9701" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient8247">
+      <stop
+         style="stop-color:#501616;stop-opacity:1;"
+         offset="0"
+         id="stop8249" />
+      <stop
+         style="stop-color:#501616;stop-opacity:0;"
+         offset="1"
+         id="stop8251" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient8239">
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="0"
+         id="stop8241" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="1"
+         id="stop8243" />
+    </linearGradient>
     <marker
        refY="50"
        refX="50"
@@ -81,6 +114,24 @@
          d="m100,50l-100,40l30,-40l-30,-40z"
          id="path3056" />
     </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8239"
+       id="linearGradient8245"
+       x1="33.206989"
+       y1="127.12143"
+       x2="118.51884"
+       y2="127.12143"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8247"
+       id="linearGradient8253"
+       x1="2.152714"
+       y1="159.96317"
+       x2="10.763571"
+       y2="140.58875"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      id="g3058">
@@ -163,7 +214,7 @@
        stroke-linejoin="null"
        stroke-linecap="null"
        x="386.13867"
-       y="62.847282"
+       y="65"
        id="text3133"
        font-size="24"
        xml:space="preserve">Ajax Service</text>
@@ -196,5 +247,27 @@
        stroke="#000000"
        fill="#3f7f00"
        inkscape:label="#svg_5" />
+    <line
+       inkscape:label="#svg_6"
+       style="fill:url(#linearGradient8253);stroke:url(#linearGradient8245);stroke-width:2;marker-end:url(#se_marker_end_svg_6);stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       id="line8217"
+       y2="127.12143"
+       x2="113.01884"
+       y1="127.12143"
+       x1="6.2217073"
+       stroke-linecap="null"
+       stroke-linejoin="null" />
+    <text
+       inkscape:label="#text3095"
+       sodipodi:linespacing="125%"
+       id="text8219"
+       y="116.1162"
+       x="36.42865"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Gill Sans;-inkscape-font-specification:Gill Sans"
+       xml:space="preserve"><tspan
+         id="tspan8221"
+         y="116.1162"
+         x="36.42865"
+         sodipodi:role="line">addUser</tspan></text>
   </g>
 </svg>
