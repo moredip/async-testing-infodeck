@@ -1,20 +1,27 @@
 createAnimator = window.nico.createAnimator
 
-animate1 = createAnimator
+showPostArrow = createAnimator
   selector: '#post-arrow'
   before: (s)-> 
     @origx2 = s.attr('x2')
     s.attr('x2', s.attr('x1'))
   change: (s)-> s.attr('x2',@origx2)
-  next: -> animate2
+  next: -> showPostText
 
-animate2 = createAnimator
+showPostText = createAnimator
   selector: '#post-text'
   before: (s)-> s.attr('opacity','0')
   change: (s)-> s.attr('opacity','1')
-  next: -> animate3
+  next: -> showPostBody
 
-animate3 = createAnimator
+showPostBody = createAnimator
+  selector: '#post-body'
+  before: (s)-> 
+    s.attr('fill-opacity','0.2')
+  change: (s)-> s.attr('fill-opacity','1')
+  next: -> showPostReturn
+
+showPostReturn = createAnimator
   selector: '#post-return-arrow'
   before: (s)-> 
     @origx2 = s.attr('x2')
@@ -24,8 +31,9 @@ animate3 = createAnimator
   pre: (s)-> s.attr('visibility','visible')
   change: (s)-> s.attr('x2',@origx2)
 
-animate1.prep()
-animate2.prep()
-animate3.prep()
+showPostArrow.prep()
+showPostText.prep()
+showPostBody.prep()
+showPostReturn.prep()
 
-animate1.animate()
+showPostArrow.animate()
