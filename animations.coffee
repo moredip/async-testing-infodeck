@@ -2,6 +2,7 @@ window.nico ?= {}
 window.nico.createAnimator = createAnimator = ( props )->
   asEvented.call( props )
 
+
   props.animate = ->
     @trigger('animate:will-start')
     @pre(@subject()) if @pre?
@@ -19,6 +20,7 @@ window.nico.createAnimator = createAnimator = ( props )->
 
   props.simulAnimate = (animation)->
     @on 'animate:will-start', -> animation.animate()
+
 
   if props.selector
     props.subject ?= -> d3.select(@selector)
