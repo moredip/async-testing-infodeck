@@ -313,10 +313,10 @@
     </g>
     <path
        style="fill:none;stroke:none"
-       d="m 158.81607,158.81606 c 5.07399,40.08456 62.41015,47.18816 62.41015,47.18816 l 166.93446,-1.52219"
+       d="m 158.81607,158.81606 c 72.13743,10.3761 198.47919,0.89885 219.0942,4.94145 14.05249,2.75569 10.11398,18.22195 10.25041,40.72452"
        id="post-params-path"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccc"
+       sodipodi:nodetypes="csc"
        inkscape:label="#path3186" />
   </g>
 </svg>
