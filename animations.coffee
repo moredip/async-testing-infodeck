@@ -3,15 +3,19 @@ window.nico.createAnimator = ( props )->
   asEvented.call( props )
 
 
-  props.animate = ->
+  props.animate ?= ->
     @trigger('animate:will-start')
     @pre(@subject()) if @pre?
-    tran = @subject().transition().delay(@delay).duration(@duration).each 'end', =>
-      @trigger('animate:did-end')
-    @change(tran)
+    if @change?
+      tran = @subject().transition()
+        .delay(@delay)
+        .duration(@duration)
+        .each 'end', => @trigger('animate:did-end')
+      @change(tran)
+
     @trigger('animate:did-start')
 
-  props.prep = ->
+  props.prep ?= ->
     @before(@subject())
     @trigger('animate:did-prep')
 
@@ -28,6 +32,8 @@ window.nico.createAnimator = ( props )->
   props.duration ?= 500
   props.delay ?= 0
 
+
+  props.prep()
   props
 
 window.nico.updateCharredTrailList = ($list,activeItemName)->
@@ -41,10 +47,10 @@ window.nico.updateCharredTrailList = ($list,activeItemName)->
 
 
 $ ->
-  $('.slide').each (_, slide)->
-    $slide = $(slide)
-    name = $(slide).data('slide')
+  $('.diagram-container').each (_, diagram)->
+    $diagram = $(diagram)
+    name = $(diagram).data('diagram')
 
     $.get( "#{name}.svg").then (svgDoc)->
-      slide.appendChild(svgDoc.childNodes[0])
+      diagram.appendChild(svgDoc.childNodes[0])
       CoffeeScript.load "#{name}.coffee"

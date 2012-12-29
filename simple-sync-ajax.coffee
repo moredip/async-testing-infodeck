@@ -41,32 +41,51 @@ showAddUserReturn = createAnimator
   pre: (s)-> s.attr('visibility','visible')
   change: (s)-> s.attr('x2',@origx2)
 
+pathTravellerFor = (pathId)->
+  path = document.getElementById(pathId)
+  pathLength = path.getTotalLength()
+  pathOrigin = path.getPointAtLength(0)
 
+  pointAlongPath = (t)->
+    absolutePoint = path.getPointAtLength( pathLength * t ) 
+    {
+      x: absolutePoint.x - pathOrigin.x
+      y: absolutePoint.y - pathOrigin.y
+    }
+  pointAlongPath
 
+movePostParams = createAnimator
+  selector: '#post-params'
+  before: (s)-> 
+    s.attr('visibility','hidden')
+        
+  pre: (s)->
+    s.attr('visibility','visible')
 
-showPostReturn.on 'animate:did-end', ->
-  console.log('post return shown')
+  change: (transition)->
+    pathTraveller = pathTravellerFor('post-params-path')
 
-showPostArrow.simulAnimate(showPostText)
-showPostText.postAnimate(showPostBody)
-showPostBody.postAnimate(showPostReturn)
-showPostReturn.postAnimate(showAddUserReturn)
+    transition.attrTween 'transform', (d,i,origTransform)->
+      (t)->
+        point = pathTraveller(t)
+        "#{origTransform} translate(#{point.x},#{point.y})"
 
-$stagesList = $('[data-slide="simple-sync-ajax"] ol')
+do wireUpAnimationSequence = ->
+  showPostArrow.simulAnimate(showPostText)
+  showPostArrow.postAnimate(movePostParams)
+  movePostParams.postAnimate(showPostBody)
+  showPostBody.postAnimate(showPostReturn)
+  showPostReturn.postAnimate(showAddUserReturn)
 
-nico.updateCharredTrailList($stagesList, 'call-add-user')
-showPostArrow.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'call-post')
-showPostBody.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'do-post')
-showPostReturn.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'return-post')
-showAddUserReturn.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'return-add-user')
-showAddUserReturn.on 'animate:did-end', -> nico.updateCharredTrailList($stagesList, '')
+do wireUpBulletPoints = ->
+  $stagesList = $('.simple-sync-ajax ol')
 
-
-showPostArrow.prep()
-showPostText.prep()
-showPostBody.prep()
-showPostReturn.prep()
-showAddUserReturn.prep()
+  nico.updateCharredTrailList($stagesList, 'call-add-user')
+  showPostArrow.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'call-post')
+  showPostBody.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'do-post')
+  showPostReturn.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'return-post')
+  showAddUserReturn.on 'animate:will-start', -> nico.updateCharredTrailList($stagesList, 'return-add-user')
+  showAddUserReturn.on 'animate:did-end', -> nico.updateCharredTrailList($stagesList, '')
 
 
 showPostArrow.animate()
