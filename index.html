@@ -4,8 +4,11 @@
   </head>
   <body>
     <article class='slide simple-sync-ajax'>
+    <a name='simple-sync-ajax'/>
       <section class="narrative">
-        <h1>a simple synchronous function</h1>
+        <a href='#simple-sync-ajax'>
+          <h1>a simple synchronous function</h1>
+      </a>
         <p>We'll use an example of adding a new user to the system. We have a UserRegistrar who is responsible for adding a new user. It does that by asking the AJAX Service to make a POST request to the appropriate URL. Once the POST request completes we have successfully create a user, so the UserRegistrar also completes.
         </p>
         <p>If we were implementing this in synchronous code we'd probably end up with something along the lines of what is illustrated by this Sequence Diagram.
@@ -33,8 +36,11 @@
     </article>
 
     <article class='slide simple-sync-ajax-test'>
+      <a name='simple-sync-ajax-test'/>
       <section class="narrative">
-        <h1>testing a simple synchronous function</h1>
+        <a href='#simple-sync-ajax-test'>
+          <h1>testing a simple synchronous function</h1>
+        </a>
         <p>
           Testing a straightforward synchronous function like this is pretty straight forward. As an example let's look at how we'd test that addUser is providing the right post parameters to the AJAX service's post function.
         </p><p>

@@ -1,40 +1,53 @@
 window.nico ?= {}
-window.nico.createAnimator = ( props )->
-  asEvented.call( props )
 
+window.nico.animationGroup = (container,context)->
+  if typeof container == 'string'
+    container = d3.select(container)
 
-  props.animate ?= ->
-    @trigger('animate:will-start')
-    @pre(@subject()) if @pre?
-    if @change?
+  createAnimator = ( props )->
+    asEvented.call( props )
+
+    #defaults
+    props.pre ?= ->
+    props.before ?= ->
+
+    props.animate ?= ->
+      @trigger('animate:will-start')
+      @pre(@subject())
       tran = @subject().transition()
         .delay(@delay)
         .duration(@duration)
         .each 'end', => @trigger('animate:did-end')
       @change(tran)
 
-    @trigger('animate:did-start')
+      @trigger('animate:did-start')
 
-  props.prep ?= ->
-    @before(@subject())
-    @trigger('animate:did-prep')
+    props.prep ?= ->
+      @before(@subject())
+      @trigger('animate:did-prep')
 
-  props.postAnimate = (animation)->
-    @on 'animate:did-end', -> animation.animate()
+    props.postAnimate = (animation)->
+      @on 'animate:did-end', -> animation.animate()
 
-  props.simulAnimate = (animation)->
-    @on 'animate:will-start', -> animation.animate()
-
-
-  if props.selector
-    props.subject ?= -> d3.select(@selector)
-
-  props.duration ?= 500
-  props.delay ?= 0
+    props.simulAnimate = (animation)->
+      @on 'animate:will-start', -> animation.animate()
 
 
-  props.prep()
-  props
+    if props.selector
+      props.subject ?= -> container.select(@selector)
+
+    props.duration ?= 500
+    props.delay ?= 0
+
+
+    props.prep()
+    props
+
+  group = 
+    createAnimator: createAnimator
+
+  context( group )
+
 
 window.nico.updateCharredTrailList = ($list,activeItemName)->
   notCurrClass = 'charred'
