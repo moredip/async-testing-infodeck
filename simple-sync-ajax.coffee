@@ -54,7 +54,8 @@ window.nico.animationGroup 'simple-sync-ajax', (group)->
       s.attr('visibility','visible')
 
     change: (transition)->
-      transition.translateAlongPath('post-params-path')
+      path = group.container.select('#post-params-path')[0][0]
+      transition.translateAlongPath(path)
 
   do wireUpAnimationSequence = ->
     showPostArrow.simulAnimate(showPostText)

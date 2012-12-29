@@ -9,7 +9,8 @@ window.nico.animationGroup 'simple-sync-ajax-test', (group)->
       s.attr('visibility','visible')
 
     change: (transition)->
-      transition.translateAlongPath('post-params-path-1')
+      path = group.container.select('#post-params-path-1')[0][0]
+      transition.translateAlongPath(path)
 
   returnPostParams = group.createAnimator
     delay: 1000

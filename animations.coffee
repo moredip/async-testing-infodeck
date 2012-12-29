@@ -48,6 +48,7 @@ window.nico.animationGroup = (name,context)->
       animation.animate()
 
   group = 
+    container: container
     createAnimator: createAnimator
     firstAnimation: registerFirstAnimation
 
