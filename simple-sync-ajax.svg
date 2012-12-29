@@ -41,10 +41,10 @@
      showgrid="false"
      inkscape:zoom="1.9708333"
      inkscape:cx="225.97528"
-     inkscape:cy="360.26882"
+     inkscape:cy="238.49292"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="g3058" />
   <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
   <defs
@@ -313,10 +313,10 @@
     </g>
     <path
        style="fill:none;stroke:none"
-       d="m 158.81607,158.81606 c 72.13743,10.3761 198.47919,0.89885 219.0942,4.94145 14.05249,2.75569 10.11398,18.22195 10.25041,40.72452"
+       d="m 158.81607,158.81606 c 7.58628,12.83785 0.34841,40.88769 14.14629,41.66836 48.02551,9.48128 189.84125,-0.17949 213.16872,7.54941"
        id="post-params-path"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="csc"
+       sodipodi:nodetypes="ccc"
        inkscape:label="#path3186" />
   </g>
 </svg>

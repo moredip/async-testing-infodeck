@@ -1,8 +1,7 @@
 window.nico ?= {}
 
-window.nico.animationGroup = (container,context)->
-  if typeof container == 'string'
-    container = d3.select(container)
+window.nico.animationGroup = (name,context)->
+  container = d3.select("svg[data-diagram='#{name}']")
 
   createAnimator = ( props )->
     asEvented.call( props )
@@ -17,10 +16,11 @@ window.nico.animationGroup = (container,context)->
       tran = @subject().transition()
         .delay(@delay)
         .duration(@duration)
-        .each 'end', => @trigger('animate:did-end')
+        .each( 'start', => @trigger('animate:did-start') )
+        .each( 'end', => @trigger('animate:did-end') )
+
       @change(tran)
 
-      @trigger('animate:did-start')
 
     props.prep ?= ->
       @before(@subject())
@@ -43,8 +43,13 @@ window.nico.animationGroup = (container,context)->
     props.prep()
     props
 
+  registerFirstAnimation = (animation)->
+    container.on 'click', ->
+      animation.animate()
+
   group = 
     createAnimator: createAnimator
+    firstAnimation: registerFirstAnimation
 
   context( group )
 
@@ -66,6 +71,7 @@ $ ->
 
     $.get( "#{name}.svg").then (svgDoc)->
       diagram.appendChild(svgDoc.childNodes[0])
+      $(diagram).find('svg').attr('data-diagram',name)
       CoffeeScript.load "#{name}.coffee"
 
 

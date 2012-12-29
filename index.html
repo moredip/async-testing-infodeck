@@ -15,7 +15,7 @@
         </p>
         <ol>
           <li data-name='call-add-user'>
-            Someone calls UserRegistrar.addUser(...)
+            someone calls UserRegistrar.addUser(...)
           </li>
           <li data-name='call-post'>
             addUser asks the AJAX service to make a post request
@@ -46,6 +46,14 @@
         </p><p>
           We can replace the real AJAX service with a test double, or fake implementation. This implementation won't actually make an AJAX call when its post function is called. Instead it will just make a note of which parameters were called and immediately return. This means that after the addUser function has completed the test can go and ask the fake AJAX service what parameters were passed to it, and thus verify that the expected parameters were indeed passed in.
         </p>
+        <ol>
+          <li data-name='send-post-params'>
+            the UserRegistrar sends the post params to the fake AJAX service
+          </li>
+          <li data-name='lookup-post-params'>
+            later, the test asks the fake ajax service for the post params which the UserRegistrar sent
+          </li>
+        </ol>
       </section>
       <div class="diagram-container" data-diagram="simple-sync-ajax-test"></div>
     </article>

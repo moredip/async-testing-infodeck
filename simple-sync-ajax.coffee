@@ -1,10 +1,13 @@
-window.nico.animationGroup '.slide.simple-sync-ajax', (group)->
+window.nico.animationGroup 'simple-sync-ajax', (group)->
 
   showPostArrow = group.createAnimator
     selector: '#post-arrow'
     before: (s)-> 
       @origx2 = s.attr('x2')
-      s.attr('x2', s.attr('x1'))
+      s.attr
+        x2: s.attr('x1')
+        visibility: 'hidden'
+    pre: (s)-> s.attr('visibility','visible')
     change: (s)-> s.attr('x2',@origx2)
 
 
@@ -43,6 +46,7 @@ window.nico.animationGroup '.slide.simple-sync-ajax', (group)->
 
   movePostParams = group.createAnimator
     selector: '#post-params'
+    delay: 100
     before: (s)-> 
       s.attr('visibility','hidden')
           
@@ -54,10 +58,12 @@ window.nico.animationGroup '.slide.simple-sync-ajax', (group)->
 
   do wireUpAnimationSequence = ->
     showPostArrow.simulAnimate(showPostText)
-    showPostArrow.postAnimate(movePostParams)
+    showPostArrow.simulAnimate(movePostParams)
     movePostParams.postAnimate(showPostBody)
     showPostBody.postAnimate(showPostReturn)
     showPostReturn.postAnimate(showAddUserReturn)
+
+    group.firstAnimation( showPostArrow )
 
   do wireUpBulletPoints = ->
     $stagesList = $('.simple-sync-ajax ol')
@@ -70,4 +76,3 @@ window.nico.animationGroup '.slide.simple-sync-ajax', (group)->
     showAddUserReturn.on 'animate:did-end', -> nico.updateCharredTrailList($stagesList, '')
 
 
-  showPostArrow.animate()
