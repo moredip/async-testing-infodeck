@@ -54,3 +54,29 @@ $ ->
     $.get( "#{name}.svg").then (svgDoc)->
       diagram.appendChild(svgDoc.childNodes[0])
       CoffeeScript.load "#{name}.coffee"
+
+
+# d3 extensions
+do d3Extensions = ->
+  
+  pathTravellerFor = (path)->
+    if typeof path == 'string'
+      path = document.getElementById(path)
+
+    pathLength = path.getTotalLength()
+    pathOrigin = path.getPointAtLength(0)
+
+    pointAlongPath = (t)->
+      absolutePoint = path.getPointAtLength( pathLength * t ) 
+      {
+        x: absolutePoint.x - pathOrigin.x
+        y: absolutePoint.y - pathOrigin.y
+      }
+    pointAlongPath
+
+  d3.transition.prototype.translateAlongPath = (path)->
+    pointAlongPath = pathTravellerFor(path)
+    this.attrTween 'transform', (d,i,origTransform)->
+      (t)->
+        point = pointAlongPath(t)
+        "#{origTransform} translate(#{point.x},#{point.y})"

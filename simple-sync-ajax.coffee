@@ -41,19 +41,6 @@ showAddUserReturn = createAnimator
   pre: (s)-> s.attr('visibility','visible')
   change: (s)-> s.attr('x2',@origx2)
 
-pathTravellerFor = (pathId)->
-  path = document.getElementById(pathId)
-  pathLength = path.getTotalLength()
-  pathOrigin = path.getPointAtLength(0)
-
-  pointAlongPath = (t)->
-    absolutePoint = path.getPointAtLength( pathLength * t ) 
-    {
-      x: absolutePoint.x - pathOrigin.x
-      y: absolutePoint.y - pathOrigin.y
-    }
-  pointAlongPath
-
 movePostParams = createAnimator
   selector: '#post-params'
   before: (s)-> 
@@ -63,12 +50,7 @@ movePostParams = createAnimator
     s.attr('visibility','visible')
 
   change: (transition)->
-    pathTraveller = pathTravellerFor('post-params-path')
-
-    transition.attrTween 'transform', (d,i,origTransform)->
-      (t)->
-        point = pathTraveller(t)
-        "#{origTransform} translate(#{point.x},#{point.y})"
+    transition.translateAlongPath('post-params-path')
 
 do wireUpAnimationSequence = ->
   showPostArrow.simulAnimate(showPostText)
