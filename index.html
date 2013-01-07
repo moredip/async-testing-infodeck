@@ -121,19 +121,20 @@
           In most cases our approach to testing Indirect Output doesn't change in the face of async code. We can take the same approach as we would with synchronous code - replace the real test dependency with a test double, exercise our test, then verify that our test subject sent the expect parameters to the faked-out test dependency.
         </p>
         <p>
-          Testing Indirect Input with async code is where things get a bit more complex. With our synchronous code example we just had to replace the test dependency with a double which would return the appropriate value. But with asynchronous code Indirect Input doesn't come in via return values. Instead the Indirect Input is passed into our test subject as a parameter in the callback which the test subject itself passed to the test double. So our tests need to start passing Indirect Input into our test subject via those callback parameters.
+          Testing Indirect Input with async code is where things get a bit more complex. With our <a href="#simple-sync-ajax-test-return">synchronous code example</a> we just had to replace the test dependency with a test double which would return the appropriate value. But with asynchronous code Indirect Input doesn't come in to the test subject via return values. Instead the Indirect Input is passed into our test subject as a parameter in the callback which the test subject itself passed to the test double. So our tests need to start passing Indirect Input into our test subject via those callback parameters.
         </p>
         <p>
-          Let's look at a concrete example of a test where we needs to pass specific Indirect Input into our test subject. We'll look at the same example that we used earlier for testing Indirect Input - verifying that the user id in the post response is added to the user instance - but we'll be testing the async version of the code. 
+          Let's illustrate how this is achieved by looking at a concrete example of a test where we need to pass specific Indirect Input into our test subject. We'll use the same example that we used earlier for testing Indirect Input - verifying that the user id in the AJAX post response is added to the user instance - but we'll be testing the async version of the code.
+        </p>
+        <p>As with previous tests, during the test setup we've replaced the AJAX service <i>test dependency</i> with a test double.
           <ol>
-            <li>As with previous tests, we've replaced the AJAX service <i>test dependency</i> with a test double.</li>
             <li>First, our test invokes addUser.</li>
-            <li>addUser invokes post on the AJAX service, passing in the relevant post params and its async callback. The test double makes a note of those parameters.</li>
-            <li>Because this is a non-blocking system, control immediately returns from the AJAX service to the addUser method, and then immediately from the addUser method to the test code</li>
-            <li>The test code then goes directly to the AJAX service test double and retrieves the callback which the addUser method had originally passed to the AJAX service</li>
-            <li>The test code invokes that callback directly, passing in a fake post response which includes the user id we'll be testing for momentarily. <b>This is the point where out test is injecting Indirect Input into our async test subject</b>.</li>
+            <li>addUser invokes post on the AJAX service, passing in the relevant post params and its async callback. The test double acts as a <i>spy</i> and makes a note of those parameters.</li>
+            <li>Because this is a non-blocking system, we have the test double immediately return control to teh addUser method (as a real AJAX service would do). The addUser method does the same, immediately returning control from the addUser method to the test code</li>
+            <li>The test code then goes directly to the AJAX service test double and retrieves the callback which the addUser method had originally passed to the AJAX service.</li>
+            <li>The test code then invokes that callback directly, passing in a fake post response which includes the user id we'll be testing for momentarily. <b>This is the point where our test is injecting Indirect Input into our async test subject</b>.</li>
             <li>Our callback does its thing, pulling the new user id from the post response it was provided and updating the user instance with that id.</li>
-            <li>Our test code verifies that the user instance has indeed been updated correctly</li>
+            <li>Our test code verifies that the user instance has indeed been updated correctly.</li>
           </ol>
         </p>
       </section>
@@ -146,19 +147,22 @@
           <h1>Async tests are just tests</h1>
         </a>
         <p>
-          This previous test was more complex, but when you break it down it's just combining a few of the techniques we've used in other tests.
+          This previous test was more complex, but when you break it down it's just combining a few of the techniques we've already used in other types of isolated test.
           Earlier we tested Indirect Output by having our test double remember the parameters that were passed to its methods. We also tested Direct Input by passing fake parameters to the test subject. You can see that tests involving Indirect Input just combine those simpler techniques together to achieve isolation.
         </p>
         <p>
-          The key point here is that although the code we're testing is written for an async system, the test itself is synchronous. The thread of execution is all completed in one turn of the event loop. We've essentially flattened out the asynchronous nature of the system into a chain of synchronous methods
+          The key aspect of this type of isolated asyncronous test is that although the code we're testing is written for an async system, <b>the test itself is synchronous</b>. The thread of execution is all completed in one turn of the event loop. We've essentially unwound the asynchronous nature of the system into a flat sequence of synchronous function calls.
         </p>
-        <p>Because of this we do <b>not</b> need to use any tricks in our test runner to verify that all async operations have completed. This is a key benefit to this type of isolated testing.</p>
+        <p>Because of this we do <b>not</b> need to use any tricks in our test runner to verify that all async operations have completed. We know the test is fully completed solely by the fact that the test method has returned, just the same as when testing synchronous code. This is a key benefit to this type of isolated testing.</p>
       </section>
     </article>
 
     <article>
       <h1> TODOS </h1>
-      <h3>Sinon yieldWith example</h3>
+      <ul>
+        <li>get test double nomenclature right - spies, mocks, stubs, fakes</li>
+        <li>Sinon yieldWith example</li>
+      </ul>
     </article>
 
 
