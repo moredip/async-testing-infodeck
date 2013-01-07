@@ -1,12 +1,14 @@
 <html>
   <head>
+    <link href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
     <article class='slide simple-sync-ajax'>
     <a name='simple-sync-ajax'/>
       <section class="narrative">
-        <a href='#simple-sync-ajax'>
+        <a class='hashlink' href='#simple-sync-ajax'>
           <h1>a simple synchronous function</h1>
       </a>
         <p>We'll use an example of adding a new user to the system. We have a UserRegistrar who is responsible for adding a new user. It does that by asking the AJAX Service to make a POST request to the appropriate URL. Once the POST request completes we have successfully create a user, so the UserRegistrar also completes.
@@ -38,11 +40,11 @@
     <article class='slide simple-sync-ajax-test'>
       <a name='simple-sync-ajax-test'/>
       <section class="narrative">
-        <a href='#simple-sync-ajax-test'>
+        <a class='hashlink' href='#simple-sync-ajax-test'>
           <h1>testing a simple synchronous function</h1>
         </a>
         <p>
-          Testing a straightforward synchronous function like this is pretty straight forward. As an example let's look at how we'd test that addUser is providing the right post parameters to the AJAX service's post function.
+          Testing a synchronous function like this is pretty straight forward. As an example let's first look at how we'd test that addUser is providing the right post parameters to the AJAX service's post function.
         </p><p>
           We can replace the real AJAX service with a test double, or fake implementation. This implementation won't actually make an AJAX call when its post function is called. Instead it will just make a note of which parameters were called and immediately return. This means that after the addUser function has completed the test can go and ask the fake AJAX service what parameters were passed to it, and thus verify that the expected parameters were indeed passed in.
         </p>
@@ -58,17 +60,74 @@
       <div class="diagram-container" data-diagram="simple-sync-ajax-test"></div>
     </article>
 
+    <article class='slide simple-sync-ajax-test-return'>
+      <a name='simple-sync-ajax-test-return'/>
+      <section class="narrative">
+        <a class='hashlink' href='#simple-sync-ajax-test-return'>
+          <h1>testing return values in to a simple synchronous function</h1>
+        </a>
+        <p>
+        In the previous example we were checking that the subject of our test was asking its dependencies to do the right thing. We will also often have tests where we need to check how the subject of our test handles different responses from its dependencies after it asks them to do something. 
+        </p><p>
+        In the context of our examples so far the UserRegistry's addUser method is the <b>test subject</b> (sometimes referred to as the <i>System Under Test</i> or SUT). The AJAX service is a <b>test dependency</b> - something which test subject depends upon to achieve its goals. Earlier we checked that the test subject was asking its dependencies the right questions. Now we'll check that it handles the answers which that dependency (the AJAX service) comes back with. Let's suppose that the post call that we make to create a user returns the id of the newly created user. We want to make sure that our addUser method takes that id and adds it to the user instance it is provided with. 
+        </p><p>
+          To achieve this goal we'll again replace the real AJAX service with a test double. We then configure the test double to return a specific response from its post method when it is called by the addUser method. That fake response will contain a specific user id. Once we have everything set up we then invoke the test subject - the addUser method - and check that it pulls the user id from the fake post response we set up and adds it to the user instance that was passed to addUser.
+        </p>
+      </section>
+      <!--<div class="diagram-container" data-diagram="simple-sync-ajax-test-return"></div>-->
+    </article>
+
+    <article class='slide test-ins-and-outs'>
+    <a name='test-ins-and-outs'/>
+      <section class="narrative">
+        <a class='hashlink' href='#test-ins-and-outs'>
+          <h1>An aside: types of test input and output</h1>
+        </a>
+        <p>
+          At the end of the day, isolated tests are all about input and output. For a given test we provide a set of controlled inputs into the system and then verify that a certain set of outputs came out of it. It's useful to put these inputs and outputs into 4 distinct categories, as per the X-Unit Testing Patterns book. 
+        </p><p>
+        The simplest categories are Direct Input and Direct Output. For low-level unit tests Direct Input would be parameters in methods called on the test subject. Direct Output would be return values from those methods. 
+        </p><p>
+          Indirect Output is the parameters which the test subject passes to its dependencies. For example the post parameters which the addUser method passes to the AJAX Service's post call.
+        </p><p>
+        Indirect Input is return values which the test subject's dependencies pass back to the test subject when the test subject calls a method on its dependencies. For example the post response data which the AJAX service's post method returns to the addUser method.
+        </p>
+      </section>
+      <!--<div class="diagram-container" data-diagram="test-ins-and-outs"></div>-->
+    </article>
+
     <article class='slide simple-async-ajax'>
     <a name='simple-async-ajax'/>
       <section class="narrative">
-        <a href='#simple-async-ajax'>
+        <a class='hashlink' href='#simple-async-ajax'>
           <h1>a simple asynchronous function</h1>
         </a>
-        <p>
-        For a long-running operation like a network call it's common to use an asynchronous approach. Rather than blocking on the result of the service call the caller can instead provide a <i>callback function</i> to the AJAX Service's post method. The AJAX Service will return immediately - before the actual network call is complete. When the network call does complete the AJAX Service will call the callback provided earlier.
-        </p>
+        <p> For a long-running operation like a network call it's common to use an asynchronous approach. Let's see how that could look in our AJAX service call example. </p>
+        <p> Rather than blocking on the result of the service call the AJAX service will instead return immediately to the caller - not waiting for the actual network call to complete. Once the network call has completed the AJAX service will let the caller know by invoking a <i>callback function</i> wich was provided by the caller when it asked the AJAX service to perform a post.</p>
+        <p> This asynchronous approach is common in event-based systems such as web browsers and UI frameworks. Evented server-side frameworks like Twisted, EventMachine, and Node take advantage of this approach too. It's a powerful and efficient way of dealing with slow-running operations, but it does take a while to get your head around. It also necessitates a more nuanced approach to isolated testing, as we'll see.</p>
+
       </section>
       <div class="diagram-container" data-diagram="simple-async-ajax"/>
+    </article>
+
+    <article class='slide async-ajax-return-test'>
+      <a name="async-ajax-return-test"> 
+      <section class="narrative">
+        <a class='hashlink' href='#async-ajax-return-test'>
+          <h1>testing indirect input and output in async code</h1>
+        </a>
+        <p>
+          Earlier we discussed testing that our UserRegistrar's addUser method uses an AJAX service correctly. In those examples addUser was our <i>test subject</i>, the AJAX service was a <i>test dependency</i>, and we were testing the <i>Indirect Output</i> of the test subject, and also how the test subject responded to <i>Indirect Input</i>. Let's see how our approach changes now that we're using async callbacks.
+        </p>
+        <p>
+          In most cases our approach to testing Indirect Output doesn't change much. We replace the real dependency with a test double, exercise our test, then verify that our test subject sent the expect parameters to the faked-out test dependency.
+        </p>
+        <p>
+          Testing Indirect Input with async code is where things get a bit trickier. With our synchronous code example we just had to replace the test dependency with a double which would return the appropriate value. But with asynchronous code we're not synchronously returning the Indirect Input. Instead it's passed along as a parameter in the callback which the <b>... I AM HERE</b>
+        </p>
+        <h3>Sinon yieldWith example</h3>
+      </section>
+      <!--<div class="diagram-container" data-diagram="simple-async-ajax-test"/>-->
     </article>
 
     <script src="jquery-1.8.3.min.js"></script>
