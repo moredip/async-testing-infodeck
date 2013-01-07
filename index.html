@@ -3,6 +3,15 @@
     <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
+    <article class='slide intro'>
+      <a name='intro'/>
+        <section class="narrative">
+          <a class='hashlink' href='#intro'>
+            <h1>isolated asynchronous tests</h1>
+        </a>
+        <p>TODO: intro</p>
+      </section>
+    </article>
     <article class='slide simple-sync-ajax'>
     <a name='simple-sync-ajax'/>
       <section class="narrative">
@@ -151,9 +160,11 @@
           Earlier we tested Indirect Output by having our test double remember the parameters that were passed to its methods. We also tested Direct Input by passing fake parameters to the test subject. You can see that tests involving Indirect Input just combine those simpler techniques together to achieve isolation.
         </p>
         <p>
-          The key aspect of this type of isolated asyncronous test is that although the code we're testing is written for an async system, <b>the test itself is synchronous</b>. The thread of execution is all completed in one turn of the event loop. We've essentially unwound the asynchronous nature of the system into a flat sequence of synchronous function calls.
+          The key aspect of this type of isolated asyncronous test is that although the code we're testing is written for an async system, <b>the test itself is synchronous</b>. The thread of execution is all completed in one turn of the event loop. We've essentially unwound the asynchronous nature of the system into a flat sequence of synchronous function calls. 
+          
+          <p>In fact the label 'isolated asynchronous tests' is a bit misleading. These are in fact <i>synchronous</i> tests of an async-oriented codebase.</p>
         </p>
-        <p>Because of this we do <b>not</b> need to use any tricks in our test runner to verify that all async operations have completed. We know the test is fully completed solely by the fact that the test method has returned, just the same as when testing synchronous code. This is a key benefit to this type of isolated testing.</p>
+        <p>Finally, because our tests are synchronous we do <b>not</b> need to use any tricks in our test runner to verify that all async operations have completed. We know the test is fully completed solely by the fact that the test method has returned, just the same as when testing synchronous code. This is a key benefit to this type of isolated testing.</p>
       </section>
     </article>
 
