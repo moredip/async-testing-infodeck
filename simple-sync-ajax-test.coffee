@@ -1,24 +1,11 @@
 window.nico.animationGroup 'simple-sync-ajax-test', (group)->
 
-  movePostParamsToFake = group.createAnimator
-    selector: '#post-params'
-    before: (s)-> 
-      s.attr('visibility','hidden')
-          
-    pre: (s)->
-      s.attr('visibility','visible')
+  movePostParamsToFake = group.createPathFollowAnimator('post-params',pathSelector:'#post-params-path-1')
 
-    change: (transition)->
-      path = group.container.select('#post-params-path-1')[0][0]
-      transition.translateAlongPath(path)
-
-  returnPostParams = group.createAnimator
+  returnPostParams = group.createPathFollowAnimator 'post-params',
+    pathSelector:'#post-params-path-2'
     delay: 1000
-    duration: 1500
-    selector: '#post-params'
-    change: (transition)->
-      transition.translateAlongPath('post-params-path-2')
-
+    duration: 1500 # NOT RESPECTED
 
   movePostParamsToFake.postAnimate( returnPostParams )
   

@@ -43,7 +43,7 @@ window.nico.animationGroup = (name,context)->
     props.prep()
     props
 
-  registerFirstAnimation = (animation)->
+  firstAnimation = (animation)->
     container.on 'click', ->
       animation.animate()
 
@@ -77,11 +77,24 @@ window.nico.animationGroup = (name,context)->
 
     showArrow
 
-  group = 
-    container: container
-    createAnimator: createAnimator
-    createFunctionCallAnimator: createFunctionCallAnimator
-    firstAnimation: registerFirstAnimation
+
+  createPathFollowAnimator = (identifier,opts={})->
+    subjectSelector = "##{identifier}"
+    pathSelector = opts.pathSelector || "##{identifier}-path"
+
+    defaultAnimatorOpts = 
+      selector: subjectSelector
+      before: (s)-> 
+        s.attr('visibility','hidden')
+      pre: (s)->
+        s.attr('visibility','visible')
+      change: (transition)->
+        path = group.container.select(pathSelector)[0][0]
+        transition.translateAlongPath(path)
+    
+    group.createAnimator( _.extend( defaultAnimatorOpts, opts ) )
+
+  group = { container, createAnimator, createFunctionCallAnimator, createPathFollowAnimator, firstAnimation }
 
   context( group )
 
