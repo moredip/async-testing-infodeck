@@ -92,9 +92,33 @@ window.nico.animationGroup = (name,context)->
         path = group.container.select(pathSelector)[0][0]
         transition.translateAlongPath(path)
     
-    group.createAnimator( _.extend( defaultAnimatorOpts, opts ) )
+    @createAnimator( _.extend( defaultAnimatorOpts, opts ) )
 
-  group = { container, createAnimator, createFunctionCallAnimator, createPathFollowAnimator, firstAnimation }
+  createOpacityAnimator = (name,fromOpacity,toOpacity,opts)->
+    selector = '#'+name
+    defaultAnimatorOpts =
+      selector: selector
+      before: (s)-> s.attr( opacity: fromOpacity )
+      change: (t)-> t.attr( opacity: toOpacity )
+
+    createAnimator( _.extend( defaultAnimatorOpts, opts ) )
+
+  createFadeInAnimator = (name,opts)->
+    createOpacityAnimator(name,0,1,opts)
+  createFadeOutAnimator = (name,opts)->
+    createOpacityAnimator(name,1,0,opts)
+
+
+  group = { 
+    container, 
+    createAnimator, 
+    createFunctionCallAnimator, 
+    createPathFollowAnimator, 
+    createOpacityAnimator,
+    createFadeInAnimator,
+    createFadeOutAnimator,
+    firstAnimation 
+  }
 
   context( group )
 

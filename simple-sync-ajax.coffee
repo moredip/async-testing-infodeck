@@ -2,6 +2,8 @@ window.nico.animationGroup 'simple-sync-ajax', (group)->
 
   showPostArrow = group.createFunctionCallAnimator('post')
 
+  fadePostParams = group.createFadeOutAnimator 'post-params'
+    duration: 500
   showPostBody = group.createAnimator
     selector: '#post-body'
     before: (s)-> 

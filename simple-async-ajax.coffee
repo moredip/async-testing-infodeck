@@ -7,30 +7,18 @@ window.nico.animationGroup 'simple-async-ajax', (group)->
   sendPostParams = group.createPathFollowAnimator('post-params')
   sendCallback = group.createPathFollowAnimator('callback-param',pathSelector:'#post-params-path')
 
-  fadePostParams = group.createAnimator
-    selector: '#post-params'
+  fadePostParams = group.createFadeOutAnimator 'post-params'
     duration: 500
-    before: (s)-> s.attr( opacity: 1 )
-    change: (t)-> t.attr( opacity: 0 )
 
-  showCallbackTunnel = group.createAnimator
-    selector: '#callback-tunnel'
+  showCallbackTunnel = group.createFadeInAnimator 'callback-tunnel',
     duration: 1500
-    before: (s)-> s.attr( opacity: 0 )
-    change: (t)-> t.attr( opacity: 1 )
 
   showAddUserReturn = group.createFunctionCallAnimator('add-user-return',true)
 
-  showSecondStageOfAjaxCall = group.createAnimator
-    selector: '#ajax-second-stage-block'
-    before: (s)-> s.attr( opacity: 0 )
-    change: (t)-> t.attr( opacity: 1 )
+  showSecondStageOfAjaxCall = group.createFadeInAnimator('ajax-second-stage-block')
 
   showCallbackArrow = group.createFunctionCallAnimator('callback')
-  showCallbackBlock = group.createAnimator
-    selector: '#callback-block'
-    before: (s)-> s.attr('opacity','0')
-    change: (s)-> s.attr('opacity','1')
+  showCallbackBlock = group.createFadeInAnimator 'callback-block',
     delay: 200
 
   showPostArrow.postAnimate(sendPostParams)
