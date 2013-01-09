@@ -96,7 +96,9 @@ do d3Extensions = ->
 
   d3.transition.prototype.translateAlongPath = (path)->
     pointAlongPath = pathTravellerFor(path)
+
     this.attrTween 'transform', (d,i,origTransform)->
+      origTransform ?= ""
       (t)->
         point = pointAlongPath(t)
         "#{origTransform} translate(#{point.x},#{point.y})"
