@@ -1,21 +1,6 @@
 window.nico.animationGroup 'simple-sync-ajax', (group)->
 
-  showPostArrow = group.createAnimator
-    selector: '#post-arrow'
-    before: (s)-> 
-      @origx2 = s.attr('x2')
-      s.attr
-        x2: s.attr('x1')
-        visibility: 'hidden'
-    pre: (s)-> s.attr('visibility','visible')
-    change: (s)-> s.attr('x2',@origx2)
-
-
-  showPostText = group.createAnimator
-    selector: '#post-text'
-    before: (s)-> s.attr('opacity','0')
-    change: (s)-> s.attr('opacity','1')
-    delay: 200
+  showPostArrow = group.createFunctionCallAnimator('post')
 
   showPostBody = group.createAnimator
     selector: '#post-body'
@@ -71,7 +56,6 @@ window.nico.animationGroup 'simple-sync-ajax', (group)->
       transition.translateAlongPath(path)
 
   do wireUpAnimationSequence = ->
-    showPostArrow.simulAnimate(showPostText)
     showPostArrow.simulAnimate(movePostParams)
     movePostParams.postAnimate(showPostBody)
     showPostBody.postAnimate(showPostReturn)

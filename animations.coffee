@@ -47,9 +47,34 @@ window.nico.animationGroup = (name,context)->
     container.on 'click', ->
       animation.animate()
 
+
+  createFunctionCallAnimator = (identifier) ->
+    textSelector = "##{identifier}-text"
+    arrowSelector = "##{identifier}-arrow"
+
+    showText = group.createAnimator
+      selector: textSelector
+      before: (s)-> s.attr('opacity','0')
+      change: (s)-> s.attr('opacity','1')
+      delay: 200
+
+    showArrow = @createAnimator
+      selector: arrowSelector
+      before: (s)-> 
+        @origx2 = s.attr('x2')
+        s.attr
+          x2: s.attr('x1')
+          visibility: 'hidden'
+      pre: (s)-> s.attr('visibility','visible')
+      change: (s)-> s.attr('x2',@origx2)
+
+    showArrow.simulAnimate(showText)
+    showArrow
+
   group = 
     container: container
     createAnimator: createAnimator
+    createFunctionCallAnimator: createFunctionCallAnimator
     firstAnimation: registerFirstAnimation
 
   context( group )
