@@ -31,15 +31,7 @@ window.nico.animationGroup 'simple-async-ajax', (group)->
     before: (s)-> s.attr( opacity: 0 )
     change: (t)-> t.attr( opacity: 1 )
 
-  showAddUserReturn = group.createAnimator
-    selector: '#add-user-return-arrow'
-    before: (s)-> 
-      @origx2 = s.attr('x2')
-      s
-        .attr('x2', s.attr('x1'))
-        .attr('visibility', 'hidden')
-    pre: (s)-> s.attr('visibility','visible')
-    change: (s)-> s.attr('x2',@origx2)
+  showAddUserReturn = group.createFunctionCallAnimator('add-user-return',true)
 
   showSecondStageOfAjaxCall = group.createAnimator
     selector: '#ajax-second-stage-block'

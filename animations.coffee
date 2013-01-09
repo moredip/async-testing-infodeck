@@ -48,15 +48,12 @@ window.nico.animationGroup = (name,context)->
       animation.animate()
 
 
-  createFunctionCallAnimator = (identifier) ->
+  createFunctionCallAnimator = (identifier,opts = {}) ->
     textSelector = "##{identifier}-text"
     arrowSelector = "##{identifier}-arrow"
 
-    showText = group.createAnimator
-      selector: textSelector
-      before: (s)-> s.attr('opacity','0')
-      change: (s)-> s.attr('opacity','1')
-      delay: 200
+    opts.noText ?= false
+    sharedDelay = opts.delay || 0
 
     showArrow = @createAnimator
       selector: arrowSelector
@@ -67,8 +64,17 @@ window.nico.animationGroup = (name,context)->
           visibility: 'hidden'
       pre: (s)-> s.attr('visibility','visible')
       change: (s)-> s.attr('x2',@origx2)
+      delay: sharedDelay
 
-    showArrow.simulAnimate(showText)
+    unless opts.noText
+      showText = group.createAnimator
+        selector: textSelector
+        before: (s)-> s.attr('opacity','0')
+        change: (s)-> s.attr('opacity','1')
+        delay: sharedDelay + 200
+      
+      showArrow.simulAnimate(showText)
+
     showArrow
 
   group = 

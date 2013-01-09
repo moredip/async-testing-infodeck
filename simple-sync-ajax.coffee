@@ -9,25 +9,8 @@ window.nico.animationGroup 'simple-sync-ajax', (group)->
     change: (s)-> s.attr('fill-opacity','1')
     duration: 1000
 
-  showPostReturn = group.createAnimator
-    selector: '#post-return-arrow'
-    before: (s)-> 
-      @origx2 = s.attr('x2')
-      s
-        .attr('x2', s.attr('x1'))
-        .attr('visibility', 'hidden')
-    pre: (s)-> s.attr('visibility','visible')
-    change: (s)-> s.attr('x2',@origx2)
-
-  showAddUserReturn = group.createAnimator
-    selector: '#add-user-return-arrow'
-    before: (s)-> 
-      @origx2 = s.attr('x2')
-      s
-        .attr('x2', s.attr('x1'))
-        .attr('visibility', 'hidden')
-    pre: (s)-> s.attr('visibility','visible')
-    change: (s)-> s.attr('x2',@origx2)
+  showPostReturn = group.createFunctionCallAnimator('post-return',true)
+  showAddUserReturn = group.createFunctionCallAnimator('add-user-return',true)
 
   movePostParams = group.createAnimator
     selector: '#post-params'

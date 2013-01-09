@@ -1,6 +1,11 @@
 window.nico.animationGroup 'simple-sync-ajax-test-return', (group)->
 
-  showPostArrow = group.createFunctionCallAnimator('set-fake-post-response')
+  showSetFakePostResponse = group.createFunctionCallAnimator('set-fake-post-response')
+  showAddUser = group.createFunctionCallAnimator 'add-user',
+    delay: 1000
+  showPost = group.createFunctionCallAnimator( 'post' )
+  showPostReturn = group.createFunctionCallAnimator( 'post-return', noText:true )
+  showAddUserReturn = group.createFunctionCallAnimator( 'add-user-return', noText:true )
 
   movePostResponseToFake = group.createAnimator
     selector: '#post-response'
@@ -16,6 +21,12 @@ window.nico.animationGroup 'simple-sync-ajax-test-return', (group)->
       transition.translateAlongPath(path)
 
   do wireUpAnimationSequence = ->
-    showPostArrow.simulAnimate(movePostResponseToFake)
+    showSetFakePostResponse.simulAnimate(movePostResponseToFake)
 
-    group.firstAnimation( showPostArrow )
+    showSetFakePostResponse.postAnimate(showAddUser)
+    showAddUser.postAnimate(showPost)
+
+    showPost.postAnimate(showPostReturn)
+    showPostReturn.postAnimate(showAddUserReturn)
+
+    group.firstAnimation( showSetFakePostResponse )
