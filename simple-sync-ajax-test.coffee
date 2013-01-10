@@ -5,7 +5,7 @@ window.nico.animationGroup 'simple-sync-ajax-test', (group)->
   returnPostParams = group.createPathFollowAnimator 'post-params',
     pathSelector:'#post-params-path-2'
     delay: 1000
-    duration: 1500 # NOT RESPECTED
+    duration: 1500
 
   movePostParamsToFake.postAnimate( returnPostParams )
   

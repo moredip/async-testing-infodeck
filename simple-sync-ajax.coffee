@@ -2,23 +2,16 @@ window.nico.animationGroup 'simple-sync-ajax', (group)->
 
   showPostArrow = group.createFunctionCallAnimator('post')
 
-  fadePostParams = group.createFadeOutAnimator 'post-params'
-    duration: 500
-  showPostBody = group.createAnimator
-    selector: '#post-body'
-    before: (s)-> 
-      s.attr('fill-opacity','0.2')
-    change: (s)-> s.attr('fill-opacity','1')
-    duration: 1000
+  fadePostParams = group.createFadeOutAnimator( 'post-params', duration: 500 )
+  
+  showPostBody = group.createPropertyAnimator( 'post-body', 'fill-opacity', 0.2,1, duration: 1000 )
 
   showPostReturn = group.createFunctionCallAnimator('post-return',true)
   showAddUserReturn = group.createFunctionCallAnimator('add-user-return',true)
 
-  movePostParams = group.createPathFollowAnimator 'post-params',
-      delay: 100
+  movePostParams = group.createPathFollowAnimator( 'post-params', delay: 100 )
 
-  movePostResponse = group.createPathFollowAnimator 'post-response',
-      delay: 100
+  movePostResponse = group.createPathFollowAnimator( 'post-response', delay: 100 )
 
   do wireUpAnimationSequence = ->
     showPostArrow.simulAnimate(movePostParams)

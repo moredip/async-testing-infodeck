@@ -1,8 +1,7 @@
 window.nico.animationGroup 'simple-sync-ajax-test-return', (group)->
 
   showSetFakePostResponse = group.createFunctionCallAnimator('set-fake-post-response')
-  showAddUser = group.createFunctionCallAnimator 'add-user',
-    delay: 1000
+  showAddUser = group.createFunctionCallAnimator( 'add-user', delay: 1000 )
   showPost = group.createFunctionCallAnimator( 'post' )
   showPostReturn = group.createFunctionCallAnimator( 'post-return', noText:true )
   showAddUserReturn = group.createFunctionCallAnimator( 'add-user-return', noText:true )

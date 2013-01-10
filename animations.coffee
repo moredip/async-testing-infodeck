@@ -92,21 +92,24 @@ window.nico.animationGroup = (name,context)->
         path = group.container.select(pathSelector)[0][0]
         transition.translateAlongPath(path)
     
-    @createAnimator( _.extend( defaultAnimatorOpts, opts ) )
-
-  createOpacityAnimator = (name,fromOpacity,toOpacity,opts)->
-    selector = '#'+name
-    defaultAnimatorOpts =
-      selector: selector
-      before: (s)-> s.attr( opacity: fromOpacity )
-      change: (t)-> t.attr( opacity: toOpacity )
-
     createAnimator( _.extend( defaultAnimatorOpts, opts ) )
 
-  createFadeInAnimator = (name,opts)->
-    createOpacityAnimator(name,0,1,opts)
-  createFadeOutAnimator = (name,opts)->
-    createOpacityAnimator(name,1,0,opts)
+  createPropertyAnimator = (subject,property,startingValue,endingValue,opts)->
+    selector = '#'+subject
+    defaultAnimatorOpts =
+      selector: selector
+      before: (s)-> s.attr( property, startingValue )
+      change: (t)-> t.attr( property, endingValue )
+    createAnimator( _.extend( defaultAnimatorOpts, opts ) )
+
+  createOpacityAnimator = (subject,fromOpacity,toOpacity,opts)->
+    createPropertyAnimator(subject,'opacity',fromOpacity,toOpacity,opts)
+
+  createFadeInAnimator = (subject,opts)->
+    createOpacityAnimator(subject,0,1,opts)
+
+  createFadeOutAnimator = (subject,opts)->
+    createOpacityAnimator(subject,1,0,opts)
 
 
   group = { 
@@ -114,6 +117,7 @@ window.nico.animationGroup = (name,context)->
     createAnimator, 
     createFunctionCallAnimator, 
     createPathFollowAnimator, 
+    createPropertyAnimator,
     createOpacityAnimator,
     createFadeInAnimator,
     createFadeOutAnimator,
